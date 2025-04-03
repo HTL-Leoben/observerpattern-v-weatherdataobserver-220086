@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.*;
 
-public class WeatherDataSimulator implements Observable {
+public class WeatherDataSimulator implements ObservableSimulator {
 
     // Löschen des Visualizers
 //   private WeatherVisualizer visualizer;
