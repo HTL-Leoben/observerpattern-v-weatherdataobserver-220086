@@ -11,7 +11,8 @@ public class WeatherVisualizationApp extends Application {
         WeatherVisualizer visualizer = new WeatherVisualizer();
 
         // Simulator mit Visualizer verbinden
-        WeatherDataSimulator simulator = new WeatherDataSimulator(visualizer, LocalDate.of(2025, 6,1), 60);
+       WeatherDataSimulator simulator = new WeatherDataSimulator(LocalDate.of(2025, 6,1), 60);
+       simulator.addObserver(visualizer);
 
         // Szene erstellen
         Scene scene = new Scene(visualizer.getRoot(), 800, 600);

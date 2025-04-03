@@ -1,4 +1,6 @@
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class CurrentWeatherData implements WeatherData {
@@ -12,9 +14,11 @@ public class CurrentWeatherData implements WeatherData {
         this.rainProbability = rainProbability;
         this.currentCondition = currentCondition;
         this.timestamp = timestamp;
+
     }
 
-    // Konstruktor
+    // Überlegung Builder/Factory Pattern
+    // Konstruktor ohne time
     public CurrentWeatherData(double temperature, int rainProbability, WeatherCondition currentCondition) {
         this.temperature = temperature;
         this.rainProbability = rainProbability;

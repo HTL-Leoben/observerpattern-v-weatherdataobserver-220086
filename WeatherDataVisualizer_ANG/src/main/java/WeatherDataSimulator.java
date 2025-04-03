@@ -3,16 +3,40 @@ import javafx.animation.AnimationTimer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.Random;
+import java.util.*;
 
-public class WeatherDataSimulator {
+public class WeatherDataSimulator implements Observable {
 
-    private WeatherVisualizer visualizer;
+    // Löschen des Visualizers
+//   private WeatherVisualizer visualizer;
     private Random random;
     private double lastTemperature;
     private int intervalMinutes;
     private LocalDateTime lastTimestamp;
     private Season currentSeason;
+    private List<WeatherDataObserver> observers;
+
+    // Weitere Überprüfung auf Non NUll -> throws?
+    @Override
+    public void addObserver(WeatherDataObserver observer) {
+        Objects.requireNonNull(observer);
+        observers.add(observer);
+
+    }
+
+    // Weitere Überprüfung auf Non NUll -> throws?
+    @Override
+    public void removeObserver(WeatherDataObserver observer) {
+        Objects.requireNonNull(observer);
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserver(WeatherData weatherData) {
+        for (WeatherDataObserver observer1 : observers) {
+            observer1.update(weatherData);
+        }
+    }
 
     // Enum für Jahreszeiten bleibt unverändert
     public enum Season {
@@ -43,14 +67,15 @@ public class WeatherDataSimulator {
     }
 
     // Konstruktor bleibt unverändert
-    public WeatherDataSimulator(WeatherVisualizer visualizer, LocalDate startDate, int intervalMinutes) {
-        this.visualizer = visualizer;
+    public WeatherDataSimulator(LocalDate startDate, int intervalMinutes) {
         this.random = new Random();
         this.intervalMinutes = intervalMinutes;
-        this.lastTimestamp = LocalDateTime.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),0,0);
+        this.lastTimestamp = LocalDateTime.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(), 0, 0);
         this.currentSeason = Season.getCurrentSeason(lastTimestamp);
         this.lastTemperature = getInitialTemperatureForSeason(currentSeason);
         startWeatherDataSimulation();
+        observers = new LinkedList<>();
+
     }
 
     private double getInitialTemperatureForSeason(Season season) {
@@ -77,7 +102,7 @@ public class WeatherDataSimulator {
         // Temperaturänderung basierend auf Tageszeit
         if (hour >= 22 || hour < 6) {
             // Nachttemperaturen sinken
-            baseChange -= (season == Season.SUMMER? -1.5 : -0.5);
+            baseChange -= (season == Season.SUMMER ? -1.5 : -0.5);
         } else if (hour >= 10 && hour < 16) {
             // Mittagshitze
             baseChange += 0.7;
@@ -122,7 +147,6 @@ public class WeatherDataSimulator {
         }
     }
 
-    // Restliche Methoden bleiben unverändert
     private void startWeatherDataSimulation() {
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -131,7 +155,7 @@ public class WeatherDataSimulator {
             public void handle(long now) {
                 if (now - lastUpdate >= 2_000_000_000L) {
                     WeatherData currentWeather = generateRealisticWeatherData();
-                    visualizer.updateWeatherVisualization(currentWeather);
+                    notifyObserver(currentWeather);
                     lastUpdate = now;
                 }
             }
