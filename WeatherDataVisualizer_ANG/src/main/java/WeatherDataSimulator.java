@@ -198,6 +198,9 @@ public class WeatherDataSimulator implements ObservableSimulator {
             newCondition = (random.nextDouble() < 0.5) ? WeatherCondition.SNOW : WeatherCondition.CLOUDY;
         }
 
+        // Nutzung der Klasse CurrentWeatherData als Impl
+        // Warum hier nicht mit Interface angesprochen?
+        // WeatherData  - || -
         CurrentWeatherData weatherData = new CurrentWeatherData(
                 newTemperature,
                 rainProbability,
