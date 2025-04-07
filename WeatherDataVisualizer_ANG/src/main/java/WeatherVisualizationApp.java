@@ -19,14 +19,11 @@ public class WeatherVisualizationApp extends Application {
        simulator.addObserver(logger);
 
 
-
         // Szene erstellen
         Scene scene = new Scene(visualizer.getRoot(), 800, 600);
         primaryStage.setTitle("Wetter-Visualisierung");
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        // Hiebler stinkt :3
     }
 
     public static void main(String[] args) {

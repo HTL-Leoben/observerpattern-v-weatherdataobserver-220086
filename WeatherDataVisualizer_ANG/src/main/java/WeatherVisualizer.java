@@ -74,6 +74,8 @@ public class WeatherVisualizer implements WeatherDataObserver {
         root = new VBox(10, lineChart, temperatureLabel, conditionLabel, timeLabel, weatherIconView);
     }
 
+    // Information from the Observed Object will be sent to the pre-existing updateWeatherVisualization method
+    // no further changes there - 7.4.2025
     @Override
     public void update(WeatherData weatherData) {
         updateWeatherVisualization(weatherData);

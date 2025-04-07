@@ -17,7 +17,6 @@ public class CurrentWeatherData implements WeatherData {
 
     }
 
-    // Überlegung Builder/Factory Pattern
     // Konstruktor ohne time
     public CurrentWeatherData(double temperature, int rainProbability, WeatherCondition currentCondition) {
         this.temperature = temperature;

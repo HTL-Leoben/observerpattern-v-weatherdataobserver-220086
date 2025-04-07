@@ -66,7 +66,7 @@ public class WeatherDataSimulator implements ObservableSimulator {
         }
     }
 
-    // Konstruktor bleibt unverändert
+    // Added a new Linkedlist initialization to the Constructer to manage its Observers that got included with the ObservableSimulator Interface
     public WeatherDataSimulator(LocalDate startDate, int intervalMinutes) {
         this.random = new Random();
         this.intervalMinutes = intervalMinutes;
@@ -78,6 +78,7 @@ public class WeatherDataSimulator implements ObservableSimulator {
 
     }
 
+    // Self-explanatory will return a random Temp (Degrees in °C) depending on the season
     private double getInitialTemperatureForSeason(Season season) {
         switch (season) {
             case WINTER:
@@ -95,6 +96,7 @@ public class WeatherDataSimulator implements ObservableSimulator {
         }
     }
 
+    // Takes overall Conditions into consideration to calculateTemperatureChange as stated
     private double calculateTemperatureChange(WeatherCondition condition, LocalDateTime timestamp, Season season) {
         double baseChange = random.nextDouble() * 1.5 - 0.75;
         int hour = timestamp.getHour();
@@ -147,6 +149,8 @@ public class WeatherDataSimulator implements ObservableSimulator {
         }
     }
 
+    // Called in Constructor, implements an AnimationTimer and calls generateRealisticWeatherData in given Intervals
+    // notifyObserver will be called and DataGenerated will be sent to its Observers
     private void startWeatherDataSimulation() {
         AnimationTimer timer = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -163,6 +167,7 @@ public class WeatherDataSimulator implements ObservableSimulator {
         timer.start();
     }
 
+    // Main Logic Method that returns a ready to use CurrentWeatherData Object
     private WeatherData generateRealisticWeatherData() {
         // Restliche Implementierung bleibt unverändert
         LocalDateTime newTimestamp = lastTimestamp.plusMinutes(intervalMinutes);
