@@ -73,8 +73,8 @@ public class WeatherDataSimulator implements ObservableSimulator {
         this.lastTimestamp = LocalDateTime.of(startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(), 0, 0);
         this.currentSeason = Season.getCurrentSeason(lastTimestamp);
         this.lastTemperature = getInitialTemperatureForSeason(currentSeason);
-        startWeatherDataSimulation();
         observers = new LinkedList<>();
+        startWeatherDataSimulation();
 
     }
 
@@ -212,7 +212,6 @@ public class WeatherDataSimulator implements ObservableSimulator {
                 newCondition,
                 newTimestamp
         );
-
         lastTemperature = newTemperature;
         lastTimestamp = newTimestamp;
         currentSeason = newSeason;
